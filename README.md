@@ -111,6 +111,4 @@ Your application will be live at `http://localhost:5173`.
 
 ---
 
-<p align="center">
-  Made with ❤️ by the <strong>SkillPath AI</strong> team and powered by cutting-edge Generative AI.
-</p>
+
