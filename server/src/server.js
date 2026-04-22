@@ -11,27 +11,15 @@ import jobRoutes from './routes/jobRoutes.js';
 
 const app = express();
 
-// ✅ CORS FIX (IMPORTANT)
-const corsOptions = {
+// ✅ CORS FIX (ENOUGH ALONE)
+app.use(cors({
     origin: "http://34.203.150.60:3000",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
-};
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // 🔥 handle preflight
+}));
 
 // ✅ Middleware
 app.use(express.json());
-
-// (Optional but safe) manual headers fallback
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://34.203.150.60:3000");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    next();
-});
 
 // ✅ Routes
 app.use('/api/auth', authRoutes);
@@ -40,7 +28,7 @@ app.use('/api/community', communityRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/jobs', jobRoutes);
 
-// ✅ Health check route
+// ✅ Health check
 app.get('/', (req, res) => {
     res.send('SkillPath AI API is running...');
 });
@@ -49,20 +37,19 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/skillpath-ai';
 
-// ✅ Global Error Handler
+// ✅ Error handler
 app.use((err, req, res, next) => {
     console.error('SERVER ERROR:', err.stack);
     res.status(500).json({
-        message: 'Internal Server Error',
-        error: process.env.NODE_ENV === 'development' ? err.message : undefined
+        message: 'Internal Server Error'
     });
 });
 
-// ✅ DB + Server start
+// ✅ Start server
 mongoose.connect(MONGO_URI)
     .then(() => {
         console.log('MongoDB Connected');
-        app.listen(PORT, () => {
+        app.listen(PORT, "0.0.0.0", () => {  // 🔥 important
             console.log(`Server running on port ${PORT}`);
         });
     })
