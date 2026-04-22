@@ -4,6 +4,7 @@ import { BookOpen, Trophy, Flame, Target, ChevronRight, PlayCircle, Clock, Plus 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const Dashboard = () => {
     const [courses, setCourses] = useState([]);
@@ -19,7 +20,6 @@ const Dashboard = () => {
                     navigate('/login');
                     return;
                 }
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
                 const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 

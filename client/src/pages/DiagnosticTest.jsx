@@ -4,6 +4,7 @@ import { CheckCircle2, ChevronRight, Loader2, Award, AlertCircle } from 'lucide-
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const DiagnosticTest = () => {
     const { courseId } = useParams();
@@ -19,7 +20,6 @@ const DiagnosticTest = () => {
         // Fetch course with diagnostic test
         const fetchCourse = async () => {
             try {
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 const { data } = await axios.get(`${API_BASE}/courses/${courseId}`, {
                     headers: { Authorization: `Bearer ${userInfo.token}` }
@@ -51,7 +51,6 @@ const DiagnosticTest = () => {
     const submitTest = async () => {
         setSubmitting(true);
         try {
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
             console.log('Sending submission payload:', { testResults: answers });
             const { data } = await axios.post(`${API_BASE}/courses/${courseId}/analyze`,

@@ -6,6 +6,7 @@ import { ArrowLeft, Loader2, CheckCircle, ListChecks, PanelRightClose, PanelRigh
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import InteractiveTerminal from '../components/InteractiveTerminal';
+import API_BASE from '../config';
 
 const CodeBlockRenderer = ({ inline, className, children, ...props }) => {
     const [copied, setCopied] = useState(false);
@@ -58,7 +59,6 @@ const ModuleView = () => {
     useEffect(() => {
         const fetchModuleContent = async () => {
             try {
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
@@ -91,7 +91,6 @@ const ModuleView = () => {
 
     const handleMarkComplete = async () => {
         try {
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
             await axios.put(`${API_BASE}/courses/update-module`, {
                 courseId,
@@ -114,7 +113,6 @@ const ModuleView = () => {
         }));
 
         try {
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
             await axios.put(`${API_BASE}/courses/update-task`, {
                 courseId,

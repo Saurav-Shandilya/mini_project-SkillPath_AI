@@ -4,6 +4,7 @@ import { Calendar, Clock, BookOpen, ChevronRight, Zap, Play, CheckCircle } from 
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const CourseGeneration = () => {
     const { courseId } = useParams();
@@ -15,7 +16,6 @@ const CourseGeneration = () => {
     useEffect(() => {
         const fetchStructure = async () => {
             try {
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 const { data } = await axios.post(`${API_BASE}/courses/${courseId}/generate-structure`, {}, {
                     headers: { Authorization: `Bearer ${userInfo.token}` }
@@ -33,7 +33,6 @@ const CourseGeneration = () => {
     const handleEnroll = async () => {
         setEnrolling(true);
         try {
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
             await axios.post(`${API_BASE}/courses/${courseId}/enroll`, {}, {
                 headers: { Authorization: `Bearer ${userInfo.token}` }

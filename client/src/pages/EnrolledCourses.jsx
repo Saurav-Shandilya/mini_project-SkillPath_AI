@@ -4,6 +4,7 @@ import { BookOpen, BookX, ArrowRight, Play, Loader2, Target, Calendar } from 'lu
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const EnrolledCourses = () => {
     const [courses, setCourses] = useState([]);
@@ -15,7 +16,6 @@ const EnrolledCourses = () => {
     useEffect(() => {
         const fetchEnrolledCourses = async () => {
             try {
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 if (!userInfo || !userInfo.token) {
                     navigate('/login');
@@ -45,7 +45,6 @@ const EnrolledCourses = () => {
 
         try {
             setDropping(courseId);
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
             await axios.delete(`${API_BASE}/courses/${courseId}/drop`, {

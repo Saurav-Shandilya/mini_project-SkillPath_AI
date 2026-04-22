@@ -4,6 +4,7 @@ import { Calendar, Clock, BookOpen, ChevronRight, Zap, Play, CheckCircle, Loader
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const CourseView = () => {
     const { courseId } = useParams();
@@ -14,7 +15,6 @@ const CourseView = () => {
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 const { data } = await axios.get(`${API_BASE}/courses/${courseId}`, {
                     headers: { Authorization: `Bearer ${userInfo.token}` }
@@ -31,7 +31,6 @@ const CourseView = () => {
 
     const handleStatusUpdate = async (moduleIndex, newStatus) => {
         try {
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
             const { data } = await axios.put(`${API_BASE}/courses/update-module`, {
                 courseId,

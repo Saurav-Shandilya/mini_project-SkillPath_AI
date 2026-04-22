@@ -4,6 +4,7 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Loader2, CheckCircle, Trophy, RefreshCw, AlertCircle } from 'lucide-react';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const QuizView = () => {
     const { courseId, stageName } = useParams();
@@ -19,7 +20,6 @@ const QuizView = () => {
     useEffect(() => {
         const fetchOrGenerateQuiz = async () => {
             try {
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
@@ -75,7 +75,6 @@ const QuizView = () => {
         setShowResults(true);
 
         try {
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
             await axios.put(`${API_BASE}/courses/update-quiz`, {
                 courseId,

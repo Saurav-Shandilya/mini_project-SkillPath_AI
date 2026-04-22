@@ -4,6 +4,7 @@ import { Target, AlertTriangle, CheckCircle, ArrowRight, Sparkles, BookOpen } fr
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const SkillGapAnalysis = () => {
     const { courseId } = useParams();
@@ -14,7 +15,6 @@ const SkillGapAnalysis = () => {
     useEffect(() => {
         const fetchAnalysis = async () => {
             try {
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 const { data } = await axios.get(`${API_BASE}/courses/${courseId}`, {
                     headers: { Authorization: `Bearer ${userInfo.token}` }

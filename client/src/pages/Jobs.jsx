@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Briefcase, MapPin, DollarSign, Clock, Building, ArrowRight, Bookmark, Search, Filter, Star } from 'lucide-react';
 import axios from 'axios';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const Jobs = () => {
     const [activeFilter, setActiveFilter] = useState('all');
@@ -12,7 +13,6 @@ const Jobs = () => {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 if (!userInfo || !userInfo.token) return;
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { User, Mail, Award, BookOpen, Settings, Zap, Star } from 'lucide-react';
 import axios from 'axios';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -14,7 +15,6 @@ const Profile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 const { data } = await axios.get(`${API_BASE}/users/profile`, {
                     headers: { Authorization: `Bearer ${userInfo.token}` }
@@ -43,7 +43,6 @@ const Profile = () => {
     const handleUpdateProfile = async (e) => {
         e.preventDefault();
         try {
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
             const { data } = await axios.put(`${API_BASE}/users/profile`, editData, {
                 headers: { Authorization: `Bearer ${userInfo.token}` }

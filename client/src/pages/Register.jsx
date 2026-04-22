@@ -4,6 +4,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User as UserIcon, Loader2, ArrowLeft } from 'lucide-react';
 import GoogleLoginBtn from '../components/GoogleLoginBtn';
+import API_BASE from '../config';
 
 const Register = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -16,7 +17,6 @@ const Register = () => {
         setLoading(true);
         setError('');
         try {
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const { data } = await axios.post(`${API_BASE}/auth/register`, formData);
             localStorage.setItem('userInfo', JSON.stringify(data));
             navigate('/dashboard');

@@ -2,6 +2,7 @@ import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API_BASE from '../config';
 
 const GoogleLoginBtn = () => {
     const navigate = useNavigate();
@@ -10,7 +11,6 @@ const GoogleLoginBtn = () => {
     const handleSuccess = async (response) => {
         try {
             setError('');
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const { data } = await axios.post(`${API_BASE}/auth/google-login`, {
                 tokenId: response.credential
             });

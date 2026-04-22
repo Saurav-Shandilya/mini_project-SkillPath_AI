@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Send, X, Bot, User, Loader2 } from 'lucide-react';
 import axios from 'axios';
+import API_BASE from '../config';
 
 const AIMentor = ({ context }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,6 @@ const AIMentor = ({ context }) => {
 
         try {
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const { data } = await axios.post(`${API_BASE}/courses/ask-mentor`,
                 { question: input, context },
                 { headers: { Authorization: `Bearer ${userInfo.token}` } }

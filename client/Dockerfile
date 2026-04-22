@@ -7,7 +7,11 @@ RUN npm install --no-audit --no-fund
 
 COPY . .
 
-# 🔥 Vite will read .env here
+# Pass in the API base URL argument for the Vite build
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+
+# 🔥 Vite will read ENV variables here
 RUN npm run build
 
 # Production stage

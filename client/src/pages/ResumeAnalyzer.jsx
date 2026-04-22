@@ -4,6 +4,7 @@ import { Upload, FileText, CheckCircle, XCircle, Briefcase, Zap, Plus, Loader2, 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const ResumeAnalyzer = () => {
     const [file, setFile] = useState(null);
@@ -45,7 +46,6 @@ const ResumeAnalyzer = () => {
                 return;
             }
             const userInfo = JSON.parse(userInfoStr);
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
             const { data } = await axios.post(`${API_BASE}/users/analyze-resume`, formData, {
                 headers: { 

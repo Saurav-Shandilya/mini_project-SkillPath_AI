@@ -4,6 +4,7 @@ import { Send, Target, Clock, Calendar, BookOpen, Loader2 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
+import API_BASE from '../config';
 
 const NewCourse = () => {
     const location = useLocation();
@@ -29,7 +30,6 @@ const NewCourse = () => {
                 return;
             }
             const userInfo = JSON.parse(userInfoStr);
-            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
             const { data } = await axios.post(`${API_BASE}/courses/generate-test`, formData, {
                 headers: { Authorization: `Bearer ${userInfo.token}` }
             });
