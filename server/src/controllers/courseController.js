@@ -310,12 +310,6 @@ export const generateModuleContent = async (req, res) => {
         Write a comprehensive, engaging, and highly detailed lesson for the topic: "${module.topic}".
         The description of this module is: "${module.description}".
         
-        Respond with a strict JSON object matching this exact schema:
-        {
-          "markdown": "Your detailed Markdown lesson content here based on the instructions below",
-          "tasks": ["Write a script that does X...", "Identify the correct algorithm for Y..."]
-        }
-
         INSTRUCTIONS FOR MARKDOWN CONTENT:
         - A clear introduction explaining the concept.
         - Detailed step-by-step explanations or theoretical deep-dives.
@@ -327,7 +321,16 @@ export const generateModuleContent = async (req, res) => {
         INSTRUCTIONS FOR TASKS:
         - Provide 2 to 4 very short, actionable practical tasks that the user should try to do in their playground based on the newly learned material. They should be clear directives.
         
-        CRITICAL: ONLY OUTPUT VALID JSON. No extra commentary. MUST start with { and end with }.`;
+        CRITICAL FORMATTING INSTRUCTION:
+        Do NOT wrap your response in JSON. Do NOT output a JSON object.
+        You MUST structure your response exactly as follows:
+        
+        [Your Detailed Markdown Lesson Content Here]
+        
+        ---TASKS---
+        1. [Task 1]
+        2. [Task 2]
+        3. [Task 3]`;
 
         console.log(`Generating detailed content for ${course.courseName} -> ${module.topic}`);
         
@@ -338,7 +341,7 @@ export const generateModuleContent = async (req, res) => {
             modelId: "meta.llama3-8b-instruct-v1:0",
             body: JSON.stringify({
                 prompt: formattedPrompt,
-                max_gen_len: 2048,
+                max_gen_len: 4000,
                 temperature: 0.5,
                 top_p: 0.9,
             }),
@@ -351,20 +354,24 @@ export const generateModuleContent = async (req, res) => {
         const result = JSON.parse(resultText);
         const completionText = result.generation.trim();
 
-        let aiJson;
-        try {
-            const jsonStart = completionText.indexOf('{');
-            const jsonEnd = completionText.lastIndexOf('}');
-            if (jsonStart === -1 || jsonEnd === -1) throw new Error("No JSON object found in response");
-            const pureJsonString = completionText.substring(jsonStart, jsonEnd + 1);
-            aiJson = JSON.parse(pureJsonString);
-        } catch (e) {
-            console.error("AI JSON parsing failed. Output was:", completionText);
-            throw new Error("Failed to parse AI JSON response: " + e.message);
-        }
+        let markdown = "";
+        let generatedTasks = [];
 
-        const markdown = aiJson.markdown || aiJson.content || "Content generation failed formatting.";
-        const generatedTasks = Array.isArray(aiJson.tasks) ? aiJson.tasks : [];
+        if (completionText.includes("---TASKS---")) {
+            const parts = completionText.split("---TASKS---");
+            markdown = parts[0].trim();
+            const tasksText = parts[1] ? parts[1].trim() : "";
+            generatedTasks = tasksText.split('\n')
+                .map(line => line.replace(/^[\d\.\-\*]+\s*/, '').trim())
+                .filter(line => line.length > 0);
+        } else {
+            console.warn("---TASKS--- separator not found in AI response. Using fallback tasks.");
+            markdown = completionText;
+            generatedTasks = [
+                "Review the material provided above.",
+                "Implement a small practice project based on this module."
+            ];
+        }
 
         // Save text and tasks to cache
         if (!module.content) module.content = {};
