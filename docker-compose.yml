@@ -17,7 +17,7 @@ services:
     ports:
       - "5000:5000"
     env_file:
-      - /home/ubuntu/.env
+      - .env 
     depends_on:
       - mongodb
 
