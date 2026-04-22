@@ -11,12 +11,27 @@ import jobRoutes from './routes/jobRoutes.js';
 
 const app = express();
 
-// ✅ CORS FIX (ENOUGH ALONE)
+// ✅ FINAL CORS (WORKING)
 app.use(cors({
     origin: "http://34.203.150.60:3000",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
+
+// ✅ EXTRA SAFETY (handles all preflight cases)
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://34.203.150.60:3000");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    
+    // 🔥 Handle preflight manually
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(200);
+    }
+
+    next();
+});
 
 // ✅ Middleware
 app.use(express.json());
@@ -35,7 +50,7 @@ app.get('/', (req, res) => {
 
 // ✅ Config
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/skillpath-ai';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongodb:27017/skillpath-ai';
 
 // ✅ Error handler
 app.use((err, req, res, next) => {
@@ -49,7 +64,7 @@ app.use((err, req, res, next) => {
 mongoose.connect(MONGO_URI)
     .then(() => {
         console.log('MongoDB Connected');
-        app.listen(PORT, "0.0.0.0", () => {  // 🔥 important
+        app.listen(PORT, "0.0.0.0", () => {
             console.log(`Server running on port ${PORT}`);
         });
     })
