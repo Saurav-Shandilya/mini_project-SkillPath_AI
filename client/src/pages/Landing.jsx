@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import FeaturesSection from '../components/FeaturesSection';
 
 // 3D Floating Particles Background Component
 const FloatingNetwork = () => {
@@ -221,44 +222,7 @@ const Landing = () => {
         }
     ];
 
-    // Core features
-    const features = [
-        {
-            icon: <Network className="w-6 h-6" />,
-            title: "Resume Analyzer",
-            desc: "Upload your existing resume to discover immediate technical gaps for your targeted role."
-        },
-        {
-            icon: <Cpu className="w-6 h-6" />,
-            title: "Split-Pane Workspace",
-            desc: "Zero context-switching. Read theory on the left, write code in the terminal on the right."
-        },
-        {
-            icon: <CheckCircle2 className="w-6 h-6" />,
-            title: "AI Micro-Tasks",
-            desc: "Dynamic checklists of practical tasks generated alongside every new lesson."
-        },
-        {
-            icon: <Zap className="w-6 h-6" />,
-            title: "1-Click Code Execution",
-            desc: "Instantly copy step-by-step AI code examples directly into your interactive terminal."
-        },
-        {
-            icon: <Play className="w-6 h-6" />,
-            title: "In-Browser Terminal",
-            desc: "Run Python (via Pyodide) and JS natively without installing anything locally."
-        },
-        {
-            icon: <LayoutDashboard className="w-6 h-6" />,
-            title: "Dynamic Course Generation",
-            desc: "Courses are generated dynamically module-by-module to ensure up-to-date content."
-        },
-        {
-            icon: <Trophy className="w-6 h-6" />,
-            title: "Gamified Progress tracking",
-            desc: "Check off your generated tasks and watch your overall course completion soar."
-        }
-    ];
+    // Core features removed in favor of FeaturesSection component
 
 
 
@@ -490,94 +454,7 @@ const Landing = () => {
             </section>
 
             {/* Core Features Section */}
-            <section id="features" className="py-32 px-6 relative bg-white/[0.02]">
-                <div className="max-w-7xl mx-auto">
-                    <motion.div
-                        className="text-center mb-20"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                    >
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4">Core Features</h2>
-                        <p className="text-gray-400 text-lg">Everything you need to master new skills efficiently</p>
-                    </motion.div>
-
-                    {/* Inverted Triangle Layout for Features (4-2-1) */}
-                    <div className="flex flex-col gap-6">
-                        {/* Row 1: 4 Cards */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {features.slice(0, 4).map((feature, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.05 }}
-                                    whileHover={{ scale: 1.02, y: -5 }}
-                                    className="group relative"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl" />
-                                    <div className="relative bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 transition-all h-full">
-                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center mb-6 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all">
-                                            <div className="text-cyan-400">{feature.icon}</div>
-                                        </div>
-                                        <h3 className="text-lg font-bold mb-3 group-hover:text-cyan-400 transition-colors">{feature.title}</h3>
-                                        <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        {/* Row 2: 2 Cards */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
-                            {features.slice(4, 6).map((feature, i) => (
-                                <motion.div
-                                    key={i + 4}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: (i + 4) * 0.05 }}
-                                    whileHover={{ scale: 1.02, y: -5 }}
-                                    className="group relative"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl" />
-                                    <div className="relative bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 transition-all h-full">
-                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center mb-6 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all">
-                                            <div className="text-cyan-400">{feature.icon}</div>
-                                        </div>
-                                        <h3 className="text-lg font-bold mb-3 group-hover:text-cyan-400 transition-colors">{feature.title}</h3>
-                                        <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        {/* Row 3: 1 Card */}
-                        <div className="max-w-md mx-auto w-full">
-                            {features.slice(6, 7).map((feature, i) => (
-                                <motion.div
-                                    key={i + 6}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: (i + 6) * 0.05 }}
-                                    whileHover={{ scale: 1.02, y: -5 }}
-                                    className="group relative"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl" />
-                                    <div className="relative bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 transition-all h-full text-center">
-                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center mb-6 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all mx-auto">
-                                            <div className="text-cyan-400">{feature.icon}</div>
-                                        </div>
-                                        <h3 className="text-lg font-bold mb-3 group-hover:text-cyan-400 transition-colors">{feature.title}</h3>
-                                        <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <FeaturesSection />
 
 
 
