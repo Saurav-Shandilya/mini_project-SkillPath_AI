@@ -21,7 +21,7 @@ In a world overflowing with generic online courses, learners often waste time on
 
 ---
 
-## ☁️ DevOps & Deploymentt
+## ☁️ DevOps & Deployment
 
 This project is a containerized MERN stack web application built using MongoDB, Express, React, and Node.js, following a scalable 3-tier architecture. The frontend is developed with React, the backend is powered by Node.js and Express, and MongoDB is used for efficient data storage.
 
