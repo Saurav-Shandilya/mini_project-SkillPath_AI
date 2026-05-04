@@ -1,12 +1,17 @@
 import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
 
-const client = new BedrockRuntimeClient({
+const bedrockConfig = {
     region: process.env.AWS_REGION || "us-east-1",
-    credentials: {
+};
+
+if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+    bedrockConfig.credentials = {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },
-});
+    };
+}
+
+const client = new BedrockRuntimeClient(bedrockConfig);
 
 export const askMentor = async (req, res) => {
     const { question, context } = req.body;
