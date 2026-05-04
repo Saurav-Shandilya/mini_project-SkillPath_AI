@@ -12,6 +12,9 @@ if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     };
+    if (process.env.AWS_SESSION_TOKEN) {
+        bedrockConfig.credentials.sessionToken = process.env.AWS_SESSION_TOKEN;
+    }
 }
 
 const client = new BedrockRuntimeClient(bedrockConfig);
@@ -40,7 +43,7 @@ const parseAIResponse = (text) => {
 };
 
 const callBedrock = async (prompt) => {
-    const modelId = "meta.llama3-8b-instruct-v1:0";
+    const modelId = "us.meta.llama3-1-8b-instruct-v1:0";
 
     // Llama 3.2 prompt format
     const formattedPrompt = `<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n${prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n`;
@@ -343,7 +346,7 @@ export const generateModuleContent = async (req, res) => {
         const formattedPrompt = `<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n${prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n`;
         
         const command = new InvokeModelCommand({
-            modelId: "meta.llama3-8b-instruct-v1:0",
+            modelId: "us.meta.llama3-1-8b-instruct-v1:0",
             body: JSON.stringify({
                 prompt: formattedPrompt,
                 max_gen_len: 4000,

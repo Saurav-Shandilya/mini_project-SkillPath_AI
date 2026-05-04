@@ -9,6 +9,9 @@ if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     };
+    if (process.env.AWS_SESSION_TOKEN) {
+        bedrockConfig.credentials.sessionToken = process.env.AWS_SESSION_TOKEN;
+    }
 }
 
 const client = new BedrockRuntimeClient(bedrockConfig);
@@ -25,7 +28,7 @@ export const askMentor = async (req, res) => {
 
         const prompt = `<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n${systemPrompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n${question}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n`;
 
-        const modelId = "meta.llama3-8b-instruct-v1:0";
+        const modelId = "us.meta.llama3-1-8b-instruct-v1:0";
         const body = JSON.stringify({
             prompt: prompt,
             max_gen_len: 1024,
