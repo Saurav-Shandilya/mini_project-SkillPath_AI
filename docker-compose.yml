@@ -12,21 +12,19 @@ services:
   server:
     build:
       context: ./server
-      dockerfile: Dockerfile
     restart: unless-stopped
     ports:
       - "5000:5000"
     env_file:
-      - .env
+      - ./server/.env   # ✅ better path
     depends_on:
       - mongodb
 
   client:
     build:
       context: ./client
-      dockerfile: Dockerfile
       args:
-        - VITE_API_BASE_URL=${VITE_API_BASE_URL}
+        - VITE_API_BASE_URL=/api   # ✅ FINAL FIX
     restart: unless-stopped
     ports:
       - "3000:80"
